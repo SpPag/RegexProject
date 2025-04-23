@@ -1,6 +1,7 @@
 'use client' // needed for useState
 
 import React, { useState } from "react";
+import PatternCard from "@/components/patternCard";
 
 type Pattern = {
   title: string;
@@ -140,37 +141,40 @@ const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
   setSelectedCategory(found ?? null);
 };
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-  <h1 className="text-3xl font-bold mb-4 text-center">Regex Reference Tool</h1>
+    <div className="p-6 max-w-5xl mx-auto">
+      <h1 className="text-3xl font-bold mb-4 text-center">Regex Reference Tool</h1>
+      <div className="max-w-lg mx-auto">
+        <label htmlFor="category" className="block text-lg mb-2 ">Choose a category:</label>
+        <select
+          id="category"
+          className="w-full border border-gray-300 rounded px-4 py-2 mb-6"
+          onChange={handleCategoryChange}
+          defaultValue=""
+        >
+          <option value="" disabled>-- Select a category --</option>
+          {regexData.map((c) => (
+            <option key={c.category} value={c.category}>
+              {c.category}
+            </option>
+          ))}
+        </select>
+      </div>
 
-  <label htmlFor="category" className="block text-lg mb-2">Choose a category:</label>
-  <select
-    id="category"
-    className="w-full border border-gray-300 rounded px-4 py-2 mb-6"
-    onChange={handleCategoryChange}
-    defaultValue=""
-  >
-    <option value="">-- Select a category --</option>
-    {regexData.map((c) => (
-      <option key={c.category} value={c.category}>
-        {c.category}
-      </option>
-    ))}
-  </select>
-
-  {selectedCategory && (
-    <div className="space-y-4">
-      {selectedCategory.patterns.map((pattern, index) => (
-        <div key={index} className="bg-gray-100 p-4 rounded shadow">
-          <h2 className="text-xl font-semibold">{pattern.title}</h2>
-          <p className="text-gray-700">{pattern.description}</p>
-          <p><strong>Example:</strong> {pattern.example}</p>
-          <p><strong>Result:</strong> {pattern.result}</p>
-        </div>
-      ))}
-    </div>
-  )}
-</div>
+      {selectedCategory && (
+          <div className="flex flex-wrap gap-4 justify-center">
+            {selectedCategory.patterns.map((pattern, index) => (
+              <div className="w-1/5">
+                <PatternCard
+                  key={pattern.title}
+                  title={pattern.title}
+                  description={pattern.description}
+                  example={pattern.example}
+                  result={pattern.result}/>
+              </div>
+            ))}
+          </div>
+      )}
+  </div>
 // have quizes that present a text along with a regex pattern and ask the user to figure out if anything will match. No checks, just a "show answer" button that displays the answer to the user
   );
 }
