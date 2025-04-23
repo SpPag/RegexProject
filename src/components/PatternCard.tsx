@@ -18,7 +18,7 @@ export default function PatternCard({ title, description, example, result }: Pat
                 onClick={()=> setIsExpanded(!isExpanded)}
                 >
                 {title}
-                </button>
+            </button>
 
             {isExpanded && (
                 <div className="bg-white px-4 py-3">

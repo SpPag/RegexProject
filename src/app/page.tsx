@@ -133,13 +133,24 @@ const regexData: Category[] = [
 // use this to continue the patterns https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes
 
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null); // track selected category
+  const [selectedPattern, setSelectedPattern] = useState<Pattern | null>(null); // track selected pattern
 
 const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  const value = event.target.value;
-  const found = regexData.find((cat) => cat.category === value);
-  setSelectedCategory(found ?? null);
+  const found = regexData.find((cat) => cat.category === event.target.value); // find the selected category, otherwise return undefined
+  setSelectedCategory(found ?? null); // set the selected category to the one found, or null if undefined
+  setSelectedPattern(null); // set the selected pattern to null so that the information box is hidden
 };
+
+const handlePatternClick = (pattern: Pattern) => {
+  if (selectedPattern === pattern) {
+    setSelectedPattern(null);
+  }
+  else {
+  setSelectedPattern(pattern);
+  }
+};
+
   return (
     <div className="p-6 max-w-5xl mx-auto">
       <h1 className="text-3xl font-bold mb-4 text-center">Regex Reference Tool</h1>
@@ -159,10 +170,10 @@ const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
           ))}
         </select>
       </div>
-
+{/* 
       {selectedCategory && (
           <div className="flex flex-wrap gap-4 justify-center">
-            {selectedCategory.patterns.map((pattern, index) => (
+            {selectedCategory.patterns.map((pattern) => (
               <div className="w-1/5">
                 <PatternCard
                   key={pattern.title}
@@ -173,7 +184,34 @@ const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
               </div>
             ))}
           </div>
+      )} */}
+
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+      {selectedCategory && selectedCategory.patterns.map((pattern) => (
+        <button
+        key={pattern.title}
+        className="border rounded-lg p-4 bg-gray-100 shadow-md hover:bg-gray-200"
+        onClick={() => handlePatternClick(pattern)}
+        >
+          {pattern.title}
+        </button>
+      ))}
+  </div>
+
+   {/* Information Box */}
+   {selectedPattern && (
+        <div className="border p-6 rounded-lg bg-gray-50 shadow-lg mt-6">
+          <h2 className="text-2xl font-semibold">{selectedPattern.title}</h2>
+          <p className="mb-2 text-gray-700">{selectedPattern.description}</p>
+          <p>
+            <span className="font-semibold">Example:</span> {selectedPattern.example}
+          </p>
+          <p>
+            <span className="font-semibold">Result:</span> {selectedPattern.result}
+          </p>
+        </div>
       )}
+
   </div>
 // have quizes that present a text along with a regex pattern and ask the user to figure out if anything will match. No checks, just a "show answer" button that displays the answer to the user
   );
