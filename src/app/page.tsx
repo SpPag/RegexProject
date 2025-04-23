@@ -1,7 +1,7 @@
 'use client' // needed for useState
 
 import React, { useState } from "react";
-import PatternCard from "@/components/patternCard";
+import PatternCard from "@/components/PatternCard";
 
 type Pattern = {
   title: string;
