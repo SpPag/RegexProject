@@ -1,12 +1,6 @@
 // src/components/PatternInfo.tsx
 import React from "react";
-
-type Pattern = {
-  title: string;
-  description: string;
-  example: string;
-  result: string;
-}
+import { Pattern } from "@/types/Pattern";
 
 interface PatternInfoProps {
   pattern: Pattern;
