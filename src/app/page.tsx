@@ -1,8 +1,8 @@
 'use client' // needed for useState
 
 import React, { useState } from "react";
-import PatternCard from "@/components/PatternCard";
-import PatternInfo from "@/components/PatternInfo";
+import { PatternCard } from "@/components/PatternCard";
+import { PatternInfo } from "@/components/PatternInfo";
 import { Pattern } from "@/types/Pattern";
 
 type Category = {

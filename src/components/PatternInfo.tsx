@@ -21,4 +21,4 @@ const PatternInfo: React.FC<PatternInfoProps> = ({ pattern }) => {
   );
 };
 
-export default PatternInfo;
+export { PatternInfo };

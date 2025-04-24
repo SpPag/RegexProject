@@ -8,7 +8,7 @@ interface PatternCardProps {
     result: string;
 }
 
-export default function PatternCard({ title, description, example, result }: PatternCardProps) {
+function PatternCard({ title, description, example, result }: PatternCardProps) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
@@ -30,3 +30,5 @@ export default function PatternCard({ title, description, example, result }: Pat
         </div>
     );
 }
+
+export { PatternCard };
