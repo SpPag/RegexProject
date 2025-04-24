@@ -2,13 +2,8 @@
 
 import React, { useState } from "react";
 import PatternCard from "@/components/PatternCard";
-
-type Pattern = {
-  title: string;
-  description: string;
-  example: string;
-  result: string;
-};
+import PatternInfo from "@/components/PatternInfo";
+import { Pattern } from "@/types/Pattern";
 
 type Category = {
   category: string;
@@ -199,7 +194,7 @@ const handlePatternClick = (pattern: Pattern) => {
   </div>
 
    {/* Information Box */}
-   {selectedPattern && (
+   {/* {selectedPattern && (
         <div className="border p-6 rounded-lg bg-gray-50 shadow-lg mt-6">
           <h2 className="text-2xl font-semibold">{selectedPattern.title}</h2>
           <p className="mb-2 text-gray-700">{selectedPattern.description}</p>
@@ -210,7 +205,12 @@ const handlePatternClick = (pattern: Pattern) => {
             <span className="font-semibold">Result:</span> {selectedPattern.result}
           </p>
         </div>
-      )}
+      )} */}
+
+    {selectedPattern && (
+      <PatternInfo pattern={selectedPattern} />
+    )}
+
 
   </div>
 // have quizes that present a text along with a regex pattern and ask the user to figure out if anything will match. No checks, just a "show answer" button that displays the answer to the user
