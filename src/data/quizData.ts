@@ -2,18 +2,30 @@ import { MultipleChoiceQuizProps } from '@/components/MultipleChoiceQuiz';
 
 const quizData: MultipleChoiceQuizProps[] = [
     {
-      question: "The quick brown fox jumps over the lazy dog",
-      targetMatch: "quick",
-      options: ["quick", "\\bquick\\b", "qu.*k", "^quick"],
-      correctAnswer: "\\bquick\\b"
+      question: "all for one, and one for all",
+      targetMatch: "the first instance of 'all'",
+      options: ["^all/g", "all/g", "all/B/g", "all$/g"],
+      correctAnswer: "^all"
     },
     {
-      question: "abc123xyz",
-      targetMatch: "123",
-      options: ["\\d+", "[0-9]{3}", "123", "[a-z]+"],
-      correctAnswer: "\\d+"
+      question: "The quick brown fox jumps over the lazy dog and then the dog slept",
+      targetMatch: "the second instance of 'dog' at the end of the sentence",
+      options: ["dog", "dog$", "^dog", "fox$"],
+      correctAnswer: "dog$"
     },
-    // Add more questions here
+    {
+      question: "A hotdog doesn't contain dog... or does it?",
+      targetMatch: "the word 'dog'",
+      options: ["dog\\g", "dog\\b\\g", "\\bdog\\g", "^dog\\g"],
+      correctAnswer: "dog$"
+    },
+    {
+      question: "It's not just any ball, it's a football",
+      targetMatch: "the 'ball' part of 'football'",
+      options: ["\\Bball\\g", "ball\\B\\g", "^ball\\g", "\\bball\\g"],
+      correctAnswer: "\\Bball"
+    }
+    
 ];
   
 export { quizData };
