@@ -1,9 +1,11 @@
 'use client' // needed for useState
 
 import React, { useState } from "react";
-import { PatternCard } from "@/components/PatternCard";
+import { PatternCard } from "@/components/PatternCard"; // was using this at first, but was replaced
 import { PatternInfo } from "@/components/PatternInfo";
 import { Pattern } from "@/types/Pattern";
+import { MultipleChoiceQuiz, MultipleChoiceQuizProps } from '@/components/MultipleChoiceQuiz';
+import { quizData } from '@/data/quizData';
 
 type Category = {
   category: string;
@@ -130,21 +132,59 @@ const regexData: Category[] = [
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null); // track selected category
   const [selectedPattern, setSelectedPattern] = useState<Pattern | null>(null); // track selected pattern
+  const [showQuiz, setShowQuiz] = useState(false); // track if the quiz should be shown
+  const [currentQuiz, setCurrentQuiz] = useState<MultipleChoiceQuizProps | null>(null);
 
-const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  const found = regexData.find((cat) => cat.category === event.target.value); // find the selected category, otherwise return undefined
-  setSelectedCategory(found ?? null); // set the selected category to the one found, or null if undefined
-  setSelectedPattern(null); // set the selected pattern to null so that the information box is hidden
-};
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const found = regexData.find((cat) => cat.category === event.target.value); // find the selected category, otherwise return undefined
+    setSelectedCategory(found ?? null); // set the selected category to the one found, or null if undefined
+    setSelectedPattern(null); // set the selected pattern to null so that the information box is hidden
+    setCurrentQuiz(null); // set the current quiz to null
+    setShowQuiz(false); // set the showQuiz state to false so that the quiz box is hidden
+  };
 
-const handlePatternClick = (pattern: Pattern) => {
-  if (selectedPattern === pattern) {
-    setSelectedPattern(null);
+  const handlePatternClick = (pattern: Pattern) => {
+    if (selectedPattern === pattern) { // check if the pattern clicked is the pattern that's already selected
+      setSelectedPattern(null); // if so, set the selected pattern to null to close the pattern information box
+    }
+    else {
+    setSelectedPattern(pattern);
+    }
+  };
+
+  const getRandomQuiz = (currentQuiz: MultipleChoiceQuizProps | null) => {
+    if (quizData.length <= 1) // check if there's only one quiz available
+    {
+      return quizData[0]; // if so, return that quiz
+    }
+    else {
+      let newQuiz: MultipleChoiceQuizProps;
+
+      do {
+        const randomIndex = Math.floor(Math.random() * quizData.length);  
+        newQuiz = quizData[randomIndex];
+      }
+      while (newQuiz === currentQuiz);
+
+      return newQuiz;
   }
-  else {
-  setSelectedPattern(pattern);
+  };
+
+  const handleShowQuiz = () => {
+    if (showQuiz)
+    {
+      setShowQuiz(false);
+    }
+    else {
+      setCurrentQuiz(getRandomQuiz(currentQuiz));
+      setShowQuiz(true);
+    }
+  };
+
+  const handleNextQuiz = () => {
+    const nextQuiz = getRandomQuiz(currentQuiz);
+    setCurrentQuiz(nextQuiz);
   }
-};
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
@@ -165,36 +205,37 @@ const handlePatternClick = (pattern: Pattern) => {
           ))}
         </select>
       </div>
-{/* 
-      {selectedCategory && (
-          <div className="flex flex-wrap gap-4 justify-center">
-            {selectedCategory.patterns.map((pattern) => (
-              <div className="w-1/5">
-                <PatternCard
-                  key={pattern.title}
-                  title={pattern.title}
-                  description={pattern.description}
-                  example={pattern.example}
-                  result={pattern.result}/>
-              </div>
-            ))}
-          </div>
-      )} */}
+      {/* 
+        {selectedCategory && (
+            <div className="flex flex-wrap gap-4 justify-center">
+              {selectedCategory.patterns.map((pattern) => (
+                <div className="w-1/5">
+                  <PatternCard
+                    key={pattern.title}
+                    title={pattern.title}
+                    description={pattern.description}
+                    example={pattern.example}
+                    result={pattern.result}/>
+                </div>
+              ))}
+            </div>
+        )}
+      */}
 
-<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
-      {selectedCategory && selectedCategory.patterns.map((pattern) => (
-        <button
-        key={pattern.title}
-        className="border rounded-lg p-4 bg-gray-100 shadow-md hover:bg-gray-200"
-        onClick={() => handlePatternClick(pattern)}
-        >
-          {pattern.title}
-        </button>
-      ))}
-  </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+        {selectedCategory && selectedCategory.patterns.map((pattern) => (
+          <button
+          key={pattern.title}
+          className="border rounded-lg p-4 bg-gray-100 shadow-md hover:bg-gray-200"
+          onClick={() => handlePatternClick(pattern)}
+          >
+            {pattern.title}
+          </button>
+        ))}
+      </div>
 
-   {/* Information Box */}
-   {/* {selectedPattern && (
+      {/* Information Box */}
+      {/* {selectedPattern && (
         <div className="border p-6 rounded-lg bg-gray-50 shadow-lg mt-6">
           <h2 className="text-2xl font-semibold">{selectedPattern.title}</h2>
           <p className="mb-2 text-gray-700">{selectedPattern.description}</p>
@@ -207,12 +248,26 @@ const handlePatternClick = (pattern: Pattern) => {
         </div>
       )} */}
 
-    {selectedPattern && (
-      <PatternInfo pattern={selectedPattern} />
-    )}
+      {selectedPattern && (
+        <PatternInfo pattern={selectedPattern} />
+      )}
 
+      <div className="mt-8">
+        <button
+          onClick={handleShowQuiz}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        >
+          {`${showQuiz ? "Close" : "Show"} Quiz`} {/* toggle between "Show Quiz" and "Close Quiz" on click */}
+        </button>
+      </div>
 
-  </div>
-// have quizes that present a text along with a regex pattern and ask the user to figure out if anything will match. No checks, just a "show answer" button that displays the answer to the user
+      {/* make sure that both the showQuiz boolean is set to true and that currentQuiz is not null */}
+      {showQuiz && currentQuiz && (
+        <div className="mt-6">
+          <MultipleChoiceQuiz {...currentQuiz} onNext={handleNextQuiz} />
+        </div>
+      )}
+      
+    </div>
   );
 }
