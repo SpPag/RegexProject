@@ -23,7 +23,7 @@ const quizData: MultipleChoiceQuizProps[] = [
       question: "It's not just any ball, it's a football",
       targetMatch: "the 'ball' part of 'football'",
       options: ["\\Bball\\g", "ball\\B\\g", "^ball\\g", "\\bball\\g"],
-      correctAnswer: "\\Bball"
+      correctAnswer: "\\Bball\\g"
     }
     
 ];
