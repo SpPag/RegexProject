@@ -3,6 +3,47 @@ import { Category } from "@/types/Category";
 // use this to continue the patterns https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes
 const regexData: Category[] = [
   {
+    category: "Flags",
+    patterns: [
+      {
+        title: "g",
+        description: "Global search, doesn't stop after the first match",
+        example: "match 'dog cat dog' against dog/g",
+        result: "Matches all occurrences of 'dog' instead of just the first one",
+      },
+      {
+        title: "i",
+        description: "Case-insensitive matching",
+        example: "match 'Ello, ello, ola, ciao and bonjour' against ello/gi",
+        result: "Matches both 'Ello' and 'ello'.",
+      },
+      {
+        title: "m",
+        description: "Multiline matching, changes the behavior of ^ and $ to match the beginning and end of each line instead of the entire string",
+        example: "match '1st place: Winnie\n2nd place: Piglet\n3rd place: Eeyore' against ^\\d/m",
+        result: "Matches '1', '2' and '3'",
+      },
+      {
+        title: "s",
+        description: "Dot matches newlines as well",
+        example: "match 'hello\\nworld' against hello.*world (actual line change instead of \\n)",
+        result: "Matches everything, including newline characters",
+      },
+      {
+        title: "u",
+        description: "Treats pattern as a sequence of Unicode code points",
+        example: "u00A9",
+        result: "Matches the Unicode character for the copyright symbol (©)",
+      },
+      {
+        title: "y",
+        description: "Sticky matching, matches only at the current position in the string",
+        example: "hello/y",
+        result: "Matches 'hello' only if it appears at the current position in the string",
+      }
+    ]
+  },
+  {
     category: "Anchors",
     patterns: [
       {
@@ -111,47 +152,6 @@ const regexData: Category[] = [
         description: "Matches the null character",
         example: "In low-level languages, strings as stored with a null character at the end (i.e. 'hello' is stored as 'hello\\0').",
         result: "Matches the final character in the 'hello\\0' example",
-      }
-    ]
-  },
-  {
-    category: "Flags",
-    patterns: [
-      {
-        title: "g",
-        description: "Global search, doesn't stop after the first match",
-        example: "match 'dog cat dog' against dog/g",
-        result: "Matches all occurrences of 'dog' instead of just the first one",
-      },
-      {
-        title: "i",
-        description: "Case-insensitive matching",
-        example: "hello/i",
-        result: "Matches 'hello', 'Hello', 'HELLO', etc.",
-      },
-      {
-        title: "m",
-        description: "Multiline matching, changes the behavior of ^ and $",
-        example: "^\d+/m",
-        result: "Matches any string that starts with a digit on a new line",
-      },
-      {
-        title: "s",
-        description: "Dot matches newlines as well",
-        example: ".*\n/s",
-        result: "Matches everything, including newline characters",
-      },
-      {
-        title: "u",
-        description: "Treats pattern as a sequence of Unicode code points",
-        example: "u00A9",
-        result: "Matches the Unicode character for the copyright symbol (©)",
-      },
-      {
-        title: "y",
-        description: "Sticky matching, matches only at the current position in the string",
-        example: "hello/y",
-        result: "Matches 'hello' only if it appears at the current position in the string",
       }
     ]
   }
