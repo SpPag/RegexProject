@@ -154,6 +154,54 @@ const regexData: Category[] = [
         description: "Matches the null character",
         example: "In low-level languages, strings as stored with a null character at the end (i.e. 'hello' is stored as 'hello\\0').",
         result: "Matches the final character in the 'hello\\0' example",
+      },
+      {
+        title: "\\f",
+        description: "Matches a form feed character",
+        example: "abc\\f123",
+        result: "Matches the form feed character between 'abc' and '123'",
+      },
+      {
+        title: "\\n",
+        description: "Matches a line feed character",
+        example: "abc\\n123",
+        result: "Matches the newline character between 'abc' and '123'",
+      },
+      {
+        title: "\\r",
+        description: "Matches a carriage return character",
+        example: "abc\\r123",
+        result: "Matches the carriage return character between 'abc' and '123'",
+      },
+      {
+        title: "\\t",
+        description: "Matches a horizontal tab character",
+        example: "abc\\t123",
+        result: "Matches the tab character between 'abc' and '123'",
+      },
+      {
+        title: "\\v",
+        description: "Matches a vertical tab character",
+        example: "abc\\v123",
+        result: "Matches the vertical tab character between 'abc' and '123'",
+      },
+      {
+        title: "\\p{...}",
+        description: "Matches any character with the specified Unicode property (requires 'u' flag)",
+        example: "\\p{Letter} or \\p{Emoji}",
+        result: "Matches any Unicode letter or emoji character respectively",
+      },
+      {
+        title: "\\P{...}",
+        description: "Matches any character without the specified Unicode property (requires 'u' flag)",
+        example: "\\P{Letter}",
+        result: "Matches any character that is not a Unicode letter",
+      },
+      {
+        title: "\\cX",
+        description: "Matches a control character using caret notation, where X is a letter from A-Z",
+        example: "\\cM matches control-M (carriage return)",
+        result: "Matches the specified control character",
       }
     ]
   }
