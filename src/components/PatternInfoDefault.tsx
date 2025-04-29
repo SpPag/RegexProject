@@ -1,4 +1,3 @@
-// src/components/PatternInfo.tsx
 import React from "react";
 import { Pattern } from "@/types/Pattern";
 

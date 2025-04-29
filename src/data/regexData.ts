@@ -27,7 +27,7 @@ const regexData: Category[] = [
         title: "s",
         description: "Dot matches newlines as well",
         example: "match 'hello\nworld' against hello.*world",
-        result: "Matches everything, including newline characters",
+        result: "Matches the entire string, since the dot also matches the newline character between 'hello' and 'world'",
         renderMode: "exampleMultiline",
       },
       {
@@ -41,6 +41,7 @@ const regexData: Category[] = [
         description: "Enables 'sticky' matching, forcing the regex to start matching exactly at the `lastIndex` position. Works best when saving the regex in a variable and setting the `lastIndex` property",
         example: "match '123abc456' against const regex = /\\d+/y; regex.lastIndex = 3;",
         result: "Returns `null` (no match) because it only looks for digits starting at index 3",
+        renderMode: "exampleItalic",
       }
     ]
   },
