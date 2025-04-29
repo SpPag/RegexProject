@@ -31,15 +31,15 @@ const regexData: Category[] = [
       },
       {
         title: "u",
-        description: "Treats pattern as a sequence of Unicode code points",
-        example: "u00A9",
-        result: "Matches the Unicode character for the copyright symbol (©)",
+        description: "Enables full Unicode support in the regular expression",
+        example: "match '𝒞' against /\\u{1D49E}/u",
+        result: "Matches Unicode characters and code point escapes correctly",
       },
       {
         title: "y",
-        description: "Sticky matching, matches only at the current position in the string",
-        example: "hello/y",
-        result: "Matches 'hello' only if it appears at the current position in the string",
+        description: "Enables 'sticky' matching, forcing the regex to start matching exactly at the `lastIndex` position. Works best when saving the regex in a variable and setting the `lastIndex` property",
+        example: "match '123abc456' against const regex = /\\d+/y; regex.lastIndex = 3;",
+        result: "Returns `null` (no match) because it only looks for digits starting at index 3",
       }
     ]
   },
