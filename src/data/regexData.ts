@@ -26,8 +26,9 @@ const regexData: Category[] = [
       {
         title: "s",
         description: "Dot matches newlines as well",
-        example: "match 'hello\\nworld' against hello.*world (actual line change instead of \\n)",
+        example: "match 'hello\nworld' against hello.*world",
         result: "Matches everything, including newline characters",
+        renderMode: "exampleMultiline",
       },
       {
         title: "u",

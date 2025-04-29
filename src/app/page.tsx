@@ -1,8 +1,8 @@
 'use client' // needed for useState
 
 import React, { useState } from "react";
-import { PatternCard } from "@/components/PatternCard"; // was using this at first, but was replaced
 import { PatternInfoDefault } from "@/components/PatternInfoDefault";
+import { PatternInfoExampleMultiline } from "@/components/PatternInfoExampleMultiline";
 import { Pattern } from "@/types/Pattern";
 import { MultipleChoiceQuiz, MultipleChoiceQuizProps } from '@/components/MultipleChoiceQuiz';
 import { quizData } from '@/data/quizData';
@@ -28,7 +28,7 @@ export default function Home() {
       setSelectedPattern(null); // if so, set the selected pattern to null to close the pattern information box
     }
     else {
-    setSelectedPattern(pattern);
+      setSelectedPattern(pattern);
     }
   };
 
@@ -41,18 +41,17 @@ export default function Home() {
       let newQuiz: MultipleChoiceQuizProps;
 
       do {
-        const randomIndex = Math.floor(Math.random() * quizData.length);  
+        const randomIndex = Math.floor(Math.random() * quizData.length);
         newQuiz = quizData[randomIndex];
       }
       while (newQuiz === currentQuiz);
 
       return newQuiz;
-   }
+    }
   };
 
   const handleShowQuiz = () => {
-    if (showQuiz)
-    {
+    if (showQuiz) {
       setShowQuiz(false);
     }
     else {
@@ -89,9 +88,9 @@ export default function Home() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
         {selectedCategory && selectedCategory.patterns.map((pattern) => (
           <button
-          key={pattern.title}
-          className="border rounded-lg p-4 bg-gray-100 shadow-md hover:bg-gray-200"
-          onClick={() => handlePatternClick(pattern)}
+            key={pattern.title}
+            className="border rounded-lg p-4 bg-gray-100 shadow-md hover:bg-gray-200"
+            onClick={() => handlePatternClick(pattern)}
           >
             {pattern.title}
           </button>
@@ -99,9 +98,16 @@ export default function Home() {
       </div>
 
       {/* Information Box */}
-      {selectedPattern && (
-        <PatternInfoDefault pattern={selectedPattern} />
-      )}
+      {/* need to check if selectedPattern.renderMode is null. If so, use PatternInfoDefault. Otherwise, use the appropriate component */}
+
+      {selectedPattern && (() => {
+        switch (selectedPattern.renderMode) {
+          case "exampleMultiline":
+            return <PatternInfoExampleMultiline pattern={selectedPattern} />;
+          default:
+            return <PatternInfoDefault pattern={selectedPattern} />;
+        }
+      })()}
 
       <div className="mt-8">
         <button
@@ -118,7 +124,7 @@ export default function Home() {
           <MultipleChoiceQuiz {...currentQuiz} onNext={handleNextQuiz} />
         </div>
       )}
-      
+
     </div>
   );
 }
