@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { PatternInfoDefault } from "@/components/PatternInfoDefault";
 import { PatternInfoExampleMultiline } from "@/components/PatternInfoExampleMultiline";
+import { PatternInfoExampleItalic } from "@/components/PatternInfoExampleItalic";
 import { Pattern } from "@/types/Pattern";
 import { MultipleChoiceQuiz, MultipleChoiceQuizProps } from '@/components/MultipleChoiceQuiz';
 import { quizData } from '@/data/quizData';
@@ -98,12 +99,14 @@ export default function Home() {
       </div>
 
       {/* Information Box */}
-      {/* need to check if selectedPattern.renderMode is null. If so, use PatternInfoDefault. Otherwise, use the appropriate component */}
+      {/* check if selectedPattern.renderMode is null. If so, use PatternInfoDefault. Otherwise, use the appropriate component */}
 
       {selectedPattern && (() => {
         switch (selectedPattern.renderMode) {
           case "exampleMultiline":
             return <PatternInfoExampleMultiline pattern={selectedPattern} />;
+          case "exampleItalic":
+            return <PatternInfoExampleItalic pattern={selectedPattern} />;
           default:
             return <PatternInfoDefault pattern={selectedPattern} />;
         }
