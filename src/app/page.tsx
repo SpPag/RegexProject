@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { PatternCard } from "@/components/PatternCard"; // was using this at first, but was replaced
-import { PatternInfo } from "@/components/PatternInfo";
+import { PatternInfoDefault } from "@/components/PatternInfoDefault";
 import { Pattern } from "@/types/Pattern";
 import { MultipleChoiceQuiz, MultipleChoiceQuizProps } from '@/components/MultipleChoiceQuiz';
 import { quizData } from '@/data/quizData';
@@ -85,22 +85,6 @@ export default function Home() {
           ))}
         </select>
       </div>
-      {/* 
-        {selectedCategory && (
-            <div className="flex flex-wrap gap-4 justify-center">
-              {selectedCategory.patterns.map((pattern) => (
-                <div className="w-1/5">
-                  <PatternCard
-                    key={pattern.title}
-                    title={pattern.title}
-                    description={pattern.description}
-                    example={pattern.example}
-                    result={pattern.result}/>
-                </div>
-              ))}
-            </div>
-        )}
-      */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
         {selectedCategory && selectedCategory.patterns.map((pattern) => (
@@ -115,21 +99,8 @@ export default function Home() {
       </div>
 
       {/* Information Box */}
-      {/* {selectedPattern && (
-        <div className="border p-6 rounded-lg bg-gray-50 shadow-lg mt-6">
-          <h2 className="text-2xl font-semibold">{selectedPattern.title}</h2>
-          <p className="mb-2 text-gray-700">{selectedPattern.description}</p>
-          <p>
-            <span className="font-semibold">Example:</span> {selectedPattern.example}
-          </p>
-          <p>
-            <span className="font-semibold">Result:</span> {selectedPattern.result}
-          </p>
-        </div>
-      )} */}
-
       {selectedPattern && (
-        <PatternInfo pattern={selectedPattern} />
+        <PatternInfoDefault pattern={selectedPattern} />
       )}
 
       <div className="mt-8">

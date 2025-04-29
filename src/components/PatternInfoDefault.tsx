@@ -6,7 +6,7 @@ interface PatternInfoProps {
   pattern: Pattern;
 }
 
-const PatternInfo: React.FC<PatternInfoProps> = ({ pattern }) => {
+const PatternInfoDefault: React.FC<PatternInfoProps> = ({ pattern }) => {
   return (
     <div className="bg-white shadow-md rounded-xl p-6 mt-6 border border-gray-200 w-full max-w-4xl mx-auto">
       <h2 className="text-2xl font-semibold mb-2">{pattern.title}</h2>
@@ -21,4 +21,4 @@ const PatternInfo: React.FC<PatternInfoProps> = ({ pattern }) => {
   );
 };
 
-export { PatternInfo };
+export { PatternInfoDefault };
