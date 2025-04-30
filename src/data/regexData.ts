@@ -1,5 +1,5 @@
 import { Category } from "@/types/Category";
-
+// add stuff like the plus sign and {number} that signal repetition
 // use this to continue the patterns https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes
 const regexData: Category[] = [
   {
@@ -196,12 +196,6 @@ const regexData: Category[] = [
         description: "Matches any character without the specified Unicode property (requires 'u' flag)",
         example: "\\P{Letter}",
         result: "Matches any character that is not a Unicode letter",
-      },
-      {
-        title: "\\cX",
-        description: "Matches a control character using caret notation, where X is a letter from A-Z",
-        example: "\\cM matches control-M (carriage return)",
-        result: "Matches the specified control character",
       }
     ]
   }
