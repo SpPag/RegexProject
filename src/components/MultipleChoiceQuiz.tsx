@@ -18,7 +18,7 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
 }) => {
   const [selected, setSelected] = useState<string | null>(null); // track selected option
   const [feedback, setFeedback] = useState<string>(""); // track feedback
-  const [matchResult, setMatchResult] = useState<RegExpMatchArray | null>(null); // track match result
+  // const [matchResult, setMatchResult] = useState<RegExpMatchArray | null>(null); // track match result
   const [highlightedResult, setHighlightedResult] = useState<React.ReactNode | null>(null);
 
   const handleSelection = (option: string) => {
@@ -28,24 +28,15 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
   };
 
   const regexMatchResult = (rawPattern: string) => {
-    try {
-      const lastSlashIndex: number = rawPattern.lastIndexOf('/'); // get the index of the last slash (which separates the pattern from the flags). Returns -1 if not found
-      const pattern: string = lastSlashIndex !== -1 ? rawPattern.slice(0, lastSlashIndex) : rawPattern; // slice the pattern string up to the last slash if it exists, otherwise use the entire string
-      const flags: string = lastSlashIndex !== -1 ? rawPattern.slice(lastSlashIndex + 1) : ''; // slice the flags string starting after the last slash if they exist, otherwise use an empty string
-      const regex = new RegExp(pattern, flags); // create a regex with the pattern and flags. It automatically treats '//' as '/' in the pattern. Flags are optional and an empty string is treated as no flags, which is the default behavior
-      const result = question.match(regex); // quiz's 'question' is the string to match
-      setMatchResult(result);
-      //------------------------------------------------------- TEST -------------------------------------------------------
-      const highlighted = question.replace(regex, (match) => `<span class="bg-yellow-200">${match}</span>`); // highlight the matched parts of the string
-      setHighlightedResult(highlighted);
-      //------------------------------------------------------- TEST -------------------------------------------------------
-    } catch (error) {
-      setMatchResult(null);
-      console.error("Regex error:", error);
-    }
+
+    const lastSlashIndex: number = rawPattern.lastIndexOf('/'); // get the index of the last slash (which separates the pattern from the flags). Returns -1 if not found
+    const pattern: string = lastSlashIndex !== -1 ? rawPattern.slice(0, lastSlashIndex) : rawPattern; // slice the pattern string up to the last slash if it exists, otherwise use the entire string
+    const flags: string = lastSlashIndex !== -1 ? rawPattern.slice(lastSlashIndex + 1) : ''; // slice the flags string starting after the last slash if they exist, otherwise use an empty string
+    const regex = new RegExp(pattern, flags); // create a regex with the pattern and flags. It automatically treats '//' as '/' in the pattern. Flags are optional and an empty string is treated as no flags, which is the default behavior
+    const highlighted = question.replace(regex, (match) => `<span class="bg-yellow-200">${match}</span>`); // highlight the matched parts of the string
+    setHighlightedResult(highlighted);
   };
-
-
+  
   const handleNext = () => {
     setSelected(null);
     setFeedback("");
@@ -94,7 +85,7 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
           {/* Match Result */}
           <div className="mt-6 bg-gray-100 p-4 rounded">
             <h5 className="font-semibold mb-2">Regex Match Result:</h5>
-            {matchResult ? (
+            {highlightedResult ? (
               <div>
                 <pre
                   className="whitespace-pre-wrap"
