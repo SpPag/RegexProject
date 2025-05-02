@@ -19,6 +19,7 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
   const [selected, setSelected] = useState<string | null>(null); // track selected option
   const [feedback, setFeedback] = useState<string>(""); // track feedback
   const [matchResult, setMatchResult] = useState<RegExpMatchArray | null>(null); // track match result
+  const [highlightedResult, setHighlightedResult] = useState<React.ReactNode | null>(null);
 
   const handleSelection = (option: string) => {
     setSelected(option);
@@ -34,11 +35,10 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
       const regex = new RegExp(pattern, flags); // create a regex with the pattern and flags. It automatically treats '//' as '/' in the pattern. Flags are optional and an empty string is treated as no flags, which is the default behavior
       const result = question.match(regex); // quiz's 'question' is the string to match
       setMatchResult(result);
-      //------------------------------------------------------- DELETE -------------------------------------------------------
-      const matchResultJSON = JSON.stringify(result, null, 2);
-      console.log(`result: ${result}`);
-      console.log(`matchResultJSON: ${matchResultJSON}`);
-      //------------------------------------------------------- DELETE -------------------------------------------------------
+      //------------------------------------------------------- TEST -------------------------------------------------------
+      const highlighted = question.replace(regex, (match) => `<span class="bg-yellow-200">${match}</span>`); // highlight the matched parts of the string
+      setHighlightedResult(highlighted);
+      //------------------------------------------------------- TEST -------------------------------------------------------
     } catch (error) {
       setMatchResult(null);
       console.error("Regex error:", error);
@@ -68,10 +68,10 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
             key={index}
             onClick={() => handleSelection(option)}
             className={`w-full px-4 py-2 rounded border text-left ${selected === option
-                ? option === correctAnswer
-                  ? "bg-green-100 border-green-500"
-                  : "bg-red-100 border-red-500"
-                : "bg-gray-50 border-gray-300 hover:bg-gray-100"
+              ? option === correctAnswer
+                ? "bg-green-100 border-green-500"
+                : "bg-red-100 border-red-500"
+              : "bg-gray-50 border-gray-300 hover:bg-gray-100"
               }`}
           >
             {option}
@@ -95,7 +95,12 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
           <div className="mt-6 bg-gray-100 p-4 rounded">
             <h5 className="font-semibold mb-2">Regex Match Result:</h5>
             {matchResult ? (
-              <pre className="whitespace-pre-wrap">{matchResult?.join(", ") || "No match"}</pre>
+              <div>
+                <pre
+                  className="whitespace-pre-wrap"
+                  dangerouslySetInnerHTML={{ __html: highlightedResult || "No match" }}
+                />
+              </div>
             ) : (
               <p className="text-red-600">No match</p>
             )}
