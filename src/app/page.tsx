@@ -55,13 +55,15 @@ export default function Home() {
     }
   };
 
-  const getRandomQuiz = () => {
+  const getRandomQuiz = (completedQuizIds: number[]) => {
     // available are the quizzes that haven't already been completed
     const availableQuizzes = quizData.filter(quiz => !completedQuizIds.includes(quiz.id));
+
     if (availableQuizzes.length === 0) {
       return null; // No more quizzes left
-    } else if (availableQuizzes.length === 1) {
-      return availableQuizzes[0];
+    }
+    else if (availableQuizzes.length === 1) {
+      return availableQuizzes[0]; // If there's only one available quiz, return it
     }
     else {
       // return a random quiz from the available ones
@@ -81,25 +83,29 @@ export default function Home() {
       setShowQuiz(false);
     }
     else {
-      setCurrentQuiz(getRandomQuiz());
+      setCurrentQuiz(getRandomQuiz(completedQuizIds));
       setShowQuiz(true);
     }
   };
 
   // executed when the 'Next Quiz' button is clicked
   const handleNextQuiz = () => {
-    if (currentQuiz) {
-      setCompletedQuizIds((preCompletedQuizIds) => [...preCompletedQuizIds, currentQuiz.id]);
-    }
-    const nextQuiz = getRandomQuiz();
-    if (nextQuiz) {
-      setCurrentQuiz(nextQuiz);
-    }
-    else {
-      setCurrentQuiz(null);
-      setShowQuiz(false);
-      setAllQuizzesComplete(true);
-      setDisplayQuizButton(false);
+    if (currentQuiz) { // add the current quiz id to the list of completed quiz ids (keep in mind that the 'Next Quiz' button is only shown if the selected answer is correct)
+      setCompletedQuizIds((prevCompletedQuizIds) => {
+        const updatedQuizIds = [...prevCompletedQuizIds, currentQuiz.id];
+        // Now fetch next quiz based on updated completedQuizIds
+        const nextQuiz = getRandomQuiz(updatedQuizIds);
+        if (nextQuiz) {
+          setCurrentQuiz(nextQuiz);
+        }
+        else {
+          setCurrentQuiz(null);
+          setShowQuiz(false);
+          setAllQuizzesComplete(true);
+          setDisplayQuizButton(false);
+        }
+        return updatedQuizIds; // return updated list of completed quiz IDs
+      });
     }
   }
 
@@ -107,7 +113,7 @@ export default function Home() {
   const handleRestartQuiz = () => {
     setCompletedQuizIds([]);
     setAllQuizzesComplete(false);
-    setCurrentQuiz(getRandomQuiz());
+    setCurrentQuiz(getRandomQuiz(completedQuizIds));
     setShowQuiz(false);
     setDisplayQuizButton(true);
   };
