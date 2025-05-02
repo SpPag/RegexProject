@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { MultipleChoiceQuizResultHighlighted } from "@/components/MultipleChoiceQuizResultHighlighted";
 
 interface MultipleChoiceQuizProps {
+  id: number;
   question: string;
   targetMatch: string;
   options: string[];
@@ -11,6 +12,7 @@ interface MultipleChoiceQuizProps {
 }
 
 const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
+  id,
   question,
   targetMatch,
   options,
