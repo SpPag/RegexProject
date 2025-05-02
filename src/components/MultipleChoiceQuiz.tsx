@@ -9,6 +9,7 @@ interface MultipleChoiceQuizProps {
   options: string[];
   correctAnswer: string;
   onNext?: () => void; // Optional callback for parent to handle next quiz logic
+  onComplete?: (id: string) => void; // Optional callback for parent to handle quiz completion
 }
 
 const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
@@ -18,6 +19,7 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
   options,
   correctAnswer,
   onNext,
+  onComplete
 }) => {
   const [selected, setSelected] = useState<string | null>(null); // track selected option
   const [feedback, setFeedback] = useState<string>(""); // track feedback
@@ -27,6 +29,10 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
     setSelected(option);
     setFeedback(option === correctAnswer ? "✅ Correct!" : "❌ Try again");
     regexMatchResult(option);
+
+    if (option === correctAnswer) { // if the selected option is correct, call the onComplete method
+      onComplete?.(id.toString());
+    }
   };
 
   const regexMatchResult = (rawPattern: string) => {
@@ -38,7 +44,7 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
     const highlighted = question.replace(regex, (match) => MultipleChoiceQuizResultHighlighted(match)); // highlight the matched parts of the string
     setHighlightedResult(highlighted);
   };
-  
+
   const handleNext = () => {
     setSelected(null);
     setFeedback("");
@@ -72,17 +78,10 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
         ))}
       </div>
 
-      {/* If an option is selected, show feedback, 'Next Quiz' button and match result */}
+      {/* If an option is selected, show feedback and match result */}
       {selected && (
         <>
           <p className="mt-4 font-semibold">{feedback}</p> {/* Feedback */}
-          {/* 'Next Quiz' button */}
-          <button
-            onClick={handleNext}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            Next Quiz
-          </button>
 
           {/* Match Result */}
           <div className="mt-6 bg-gray-100 p-4 rounded">
@@ -99,6 +98,16 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
             )}
           </div>
         </>
+      )}
+
+      {/* If the correct answer is selected, show the next button */}
+      {selected === correctAnswer && (
+        <button
+          onClick={handleNext}
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Next Quiz
+        </button>
       )}
     </div>
   );

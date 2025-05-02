@@ -1,6 +1,6 @@
 'use client' // needed for useState
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PatternInfoDefault } from "@/components/PatternInfoDefault";
 import { PatternInfoExampleMultiline } from "@/components/PatternInfoExampleMultiline";
 import { PatternInfoExampleItalic } from "@/components/PatternInfoExampleItalic";
@@ -9,12 +9,16 @@ import { MultipleChoiceQuiz, MultipleChoiceQuizProps } from '@/components/Multip
 import { quizData } from '@/data/quizData';
 import { Category } from "@/types/Category";
 import { regexData } from "@/data/regexData";
+import { AllQuizzesCompletedMessage } from "@/components/AllQuizzesCompletedMessage";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null); // track selected category
   const [selectedPattern, setSelectedPattern] = useState<Pattern | null>(null); // track selected pattern
   const [showQuiz, setShowQuiz] = useState(false); // track if the quiz should be shown
-  const [currentQuiz, setCurrentQuiz] = useState<MultipleChoiceQuizProps | null>(null);
+  const [currentQuiz, setCurrentQuiz] = useState<MultipleChoiceQuizProps | null>(null); // track current quiz
+  const [completedQuizIds, setCompletedQuizIds] = useState<number[]>([]); // track completed quiz ids
+  const [allQuizzesComplete, setAllQuizzesComplete] = useState(false); // track if all quizzes have been completed
+  const [displayQuizButton, setDisplayQuizButton] = useState(true); // track if the 'Show / Close Quiz' button should be shown
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const found = regexData.find((cat) => cat.category === event.target.value); // find the selected category, otherwise return undefined
@@ -33,19 +37,40 @@ export default function Home() {
     }
   };
 
-  const getRandomQuiz = (currentQuiz: MultipleChoiceQuizProps | null) => {
-    if (quizData.length <= 1) // check if there's only one quiz available
-    {
-      return quizData[0]; // if so, return that quiz
+  // check for duplicate id values among the quizzes and log to the console a warning that includes the id value
+  const checkQuizDuplicates = () => {
+    const ids = quizData.map(quiz => quiz.id);
+    const idCounts = new Map<number, number>();
+
+    for (const id of ids) {
+      idCounts.set(id, (idCounts.get(id) || 0) + 1); // get the count of the id, or 0 if it doesn't exist, and add 1 to it
+    }
+
+    const duplicates = [...idCounts.entries()] // convert the map to an array of [id, count] pairs
+      .filter(([_, count]) => count > 1) // create a new array with only the pairs where the count is greater than 1. The underscore is used to ignore the id
+      .map(([id]) => id); // create a new array with only the ids. [id] grabs the first element of the pair and locally calls it 'id'
+
+    if (duplicates.length > 0) {
+      console.warn("Duplicate id values found in quizData:", duplicates);
+    }
+  };
+
+  const getRandomQuiz = () => {
+    // available are the quizzes that haven't already been completed
+    const availableQuizzes = quizData.filter(quiz => !completedQuizIds.includes(quiz.id));
+    if (availableQuizzes.length === 0) {
+      return null; // No more quizzes left
+    } else if (availableQuizzes.length === 1) {
+      return availableQuizzes[0];
     }
     else {
+      // return a random quiz from the available ones
       let newQuiz: MultipleChoiceQuizProps;
 
       do {
-        const randomIndex = Math.floor(Math.random() * quizData.length);
-        newQuiz = quizData[randomIndex];
-      }
-      while (newQuiz === currentQuiz);
+        const randomIndex = Math.floor(Math.random() * availableQuizzes.length);
+        newQuiz = availableQuizzes[randomIndex];
+      } while (newQuiz === currentQuiz);
 
       return newQuiz;
     }
@@ -56,15 +81,41 @@ export default function Home() {
       setShowQuiz(false);
     }
     else {
-      setCurrentQuiz(getRandomQuiz(currentQuiz));
+      setCurrentQuiz(getRandomQuiz());
       setShowQuiz(true);
     }
   };
 
+  // executed when the 'Next Quiz' button is clicked
   const handleNextQuiz = () => {
-    const nextQuiz = getRandomQuiz(currentQuiz);
-    setCurrentQuiz(nextQuiz);
+    if (currentQuiz) {
+      setCompletedQuizIds((preCompletedQuizIds) => [...preCompletedQuizIds, currentQuiz.id]);
+    }
+    const nextQuiz = getRandomQuiz();
+    if (nextQuiz) {
+      setCurrentQuiz(nextQuiz);
+    }
+    else {
+      setCurrentQuiz(null);
+      setShowQuiz(false);
+      setAllQuizzesComplete(true);
+      setDisplayQuizButton(false);
+    }
   }
+
+  // executed when the 'Restart Quiz' button is clicked. It resets all the state variables to their initial values
+  const handleRestartQuiz = () => {
+    setCompletedQuizIds([]);
+    setAllQuizzesComplete(false);
+    setCurrentQuiz(getRandomQuiz());
+    setShowQuiz(false);
+    setDisplayQuizButton(true);
+  };
+
+  // call the method to check for duplicate id values among the quizzes and log an appropriate message to the console, if any are found. I use 'useEffect' to call this method when the component mounts, otherwise if I were to call it directly it would run twice on startup because React renders everything twice
+  useEffect(() => {
+    checkQuizDuplicates();
+  });
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
@@ -112,14 +163,16 @@ export default function Home() {
         }
       })()}
 
-      <div className="mt-8">
-        <button
-          onClick={handleShowQuiz}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-        >
-          {`${showQuiz ? "Close" : "Show"} Quiz`} {/* toggle between "Show Quiz" and "Close Quiz" on click */}
-        </button>
-      </div>
+      {displayQuizButton && (
+        <div className="mt-8">
+          <button
+            onClick={handleShowQuiz}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          >
+            {`${showQuiz ? "Close" : "Show"} Quiz`} {/* toggle between "Show Quiz" and "Close Quiz" on click */}
+          </button>
+        </div>
+      )}
 
       {/* make sure that both the showQuiz boolean is set to true and that currentQuiz is not null */}
       {showQuiz && currentQuiz && (
@@ -128,6 +181,11 @@ export default function Home() {
         </div>
       )}
 
+      {allQuizzesComplete && (
+        <div className="mt-6">
+          <AllQuizzesCompletedMessage onRestart={handleRestartQuiz} />
+        </div>
+      )}
     </div>
   );
 }

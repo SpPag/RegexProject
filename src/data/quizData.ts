@@ -1,69 +1,69 @@
 import { MultipleChoiceQuizProps } from '@/components/MultipleChoiceQuiz';
 
 const quizData: MultipleChoiceQuizProps[] = [
-    {
-      id: 1,
-      question: "all for one, and one for all",
-      targetMatch: "the first instance of 'all'",
-      options: ["^all/g", "all/g", "all/B/g", "all$/g"],
-      correctAnswer: "^all/g"
-    },
-    {
-      id: 2,
-      question: "The quick brown fox jumps over the lazy dog, without disturbing the other dog",
-      targetMatch: "the second instance of 'dog' at the end of the sentence",
-      options: ["dog", "dog$", "^dog", "fox$"],
-      correctAnswer: "dog$"
-    },
-    {
-      id: 3,
-      question: "A hotdog doesn't contain dog... or does it?",
-      targetMatch: "the word 'dog'",
-      options: ["dog/g", "dog\\b/g", "\\bdog/g", "^dog/g"],
-      correctAnswer: "\\bdog/g"
-    },
-    {
-      id: 4,
-      question: "It's not just any ball, it's a football",
-      targetMatch: "the 'ball' part of 'football'",
-      options: ["\\Bball/g", "ball\\B/g", "^ball/g", "\\bball/g"],
-      correctAnswer: "\\Bball/g"
-    },
-    {
-      id: 5,
-      question: "apple banana apple orange",
-      targetMatch: "the first 'apple' at the start of the string",
-      options: ["^apple", "apple$", "apple/g", "\\bapple/g"],
-      correctAnswer: "^apple"
-    },
-    {
-      id: 6,
-      question: "The password is pass123 (pass)",
-      targetMatch: "the exact word 'pass' (not part of 'password')",
-      options: ["pass", "\\bpass\\b", "pass$", "\\Bpass"],
-      correctAnswer: "\\bpass\\b"
-    },
-    {
-      id: 7,
-      question: "win win win",
-      targetMatch: "all occurrences of 'win'",
-      options: ["win", "win/g", "^win", "win$"],
-      correctAnswer: "win/g"
-    },
-    {
-      id: 8,
-      question: "Python is better than python",
-      targetMatch: "both 'Python' and 'python'",
-      options: ["python/gi", "python", "Python", "\\bpython\\b"],
-      correctAnswer: "python/gi"
-    },
-    {
-      id: 9,
-      question: "Order #123: 5 items",
-      targetMatch: "all digit sequences in the string ('123' and '5')",
-      options: ["\\d", "\\d/g", "[0-9]", "\\d+/g"],
-      correctAnswer: "\\d+/g"
-    },
+    // {
+    //   id: 1,
+    //   question: "all for one, and one for all",
+    //   targetMatch: "the first instance of 'all'",
+    //   options: ["^all/g", "all/g", "all/B/g", "all$/g"],
+    //   correctAnswer: "^all/g"
+    // },
+    // {
+    //   id: 2,
+    //   question: "The quick brown fox jumps over the lazy dog, without disturbing the other dog",
+    //   targetMatch: "the second instance of 'dog' at the end of the sentence",
+    //   options: ["dog", "dog$", "^dog", "fox$"],
+    //   correctAnswer: "dog$"
+    // },
+    // {
+    //   id: 3,
+    //   question: "A hotdog doesn't contain dog... or does it?",
+    //   targetMatch: "the word 'dog'",
+    //   options: ["dog/g", "dog\\b/g", "\\bdog/g", "^dog/g"],
+    //   correctAnswer: "\\bdog/g"
+    // },
+    // {
+    //   id: 4,
+    //   question: "It's not just any ball, it's a football",
+    //   targetMatch: "the 'ball' part of 'football'",
+    //   options: ["\\Bball/g", "ball\\B/g", "^ball/g", "\\bball/g"],
+    //   correctAnswer: "\\Bball/g"
+    // },
+    // {
+    //   id: 5,
+    //   question: "apple banana apple orange",
+    //   targetMatch: "the first 'apple' at the start of the string",
+    //   options: ["^apple", "apple$", "apple/g", "\\bapple/g"],
+    //   correctAnswer: "^apple"
+    // },
+    // {
+    //   id: 6,
+    //   question: "The password is pass123 (pass)",
+    //   targetMatch: "the exact word 'pass' (not part of 'password')",
+    //   options: ["pass", "\\bpass\\b", "pass$", "\\Bpass"],
+    //   correctAnswer: "\\bpass\\b"
+    // },
+    // {
+    //   id: 7,
+    //   question: "win win win",
+    //   targetMatch: "all occurrences of 'win'",
+    //   options: ["win", "win/g", "^win", "win$"],
+    //   correctAnswer: "win/g"
+    // },
+    // {
+    //   id: 8,
+    //   question: "Python is better than python",
+    //   targetMatch: "both 'Python' and 'python'",
+    //   options: ["python/gi", "python", "Python", "\\bpython\\b"],
+    //   correctAnswer: "python/gi"
+    // },
+    // {
+    //   id: 9,
+    //   question: "Order #123: 5 items",
+    //   targetMatch: "all digit sequences in the string ('123' and '5')",
+    //   options: ["\\d", "\\d/g", "[0-9]", "\\d+/g"],
+    //   correctAnswer: "\\d+/g"
+    // },
     {
       id: 10,
       question: "Contact me at user@example.com for USA support or user@example.de for Germany support, or visit fake@domain",
