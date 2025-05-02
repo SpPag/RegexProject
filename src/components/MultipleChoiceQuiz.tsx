@@ -58,7 +58,7 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
           <button
             key={index}
             onClick={() => handleSelection(option)}
-            className={`w-full px-4 py-2 rounded border text-left ${selected === option
+            className={`w-full px-4 py-2 rounded border text-left hover:cursor-pointer ${selected === option
               ? option === correctAnswer
                 ? "bg-green-100 border-green-500"
                 : "bg-red-100 border-red-500"
