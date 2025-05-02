@@ -69,6 +69,7 @@ export default function Home() {
       // return a random quiz from the available ones
       let newQuiz: MultipleChoiceQuizProps;
 
+      // do-while loop to ensure that the newQuiz is not the same as the currentQuiz
       do {
         const randomIndex = Math.floor(Math.random() * availableQuizzes.length);
         newQuiz = availableQuizzes[randomIndex];
@@ -79,9 +80,11 @@ export default function Home() {
   };
 
   const handleShowQuiz = () => {
+    // if the quiz button is clicked while the quiz is shown, close it
     if (showQuiz) {
       setShowQuiz(false);
     }
+    // if the quiz button is clicked while the quiz is not shown, get a random, available quiz and show it
     else {
       setCurrentQuiz(getRandomQuiz(completedQuizIds));
       setShowQuiz(true);
@@ -95,10 +98,10 @@ export default function Home() {
         const updatedQuizIds = [...prevCompletedQuizIds, currentQuiz.id];
         // Now fetch next quiz based on updated completedQuizIds
         const nextQuiz = getRandomQuiz(updatedQuizIds);
-        if (nextQuiz) {
+        if (nextQuiz) { // if there is a next quiz (so if not all the quizzes have been completed), show it
           setCurrentQuiz(nextQuiz);
         }
-        else {
+        else { // if all the quizzes have been completed, set currentQuiz to null, hide the quiz box, set allQuizzesComplete to true, and hide the 'Show / Close Quiz' button
           setCurrentQuiz(null);
           setShowQuiz(false);
           setAllQuizzesComplete(true);
