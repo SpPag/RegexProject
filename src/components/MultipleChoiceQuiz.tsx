@@ -16,18 +16,40 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
   correctAnswer,
   onNext,
 }) => {
-  const [selected, setSelected] = useState<string | null>(null);
-  const [feedback, setFeedback] = useState<string>("");
+  const [selected, setSelected] = useState<string | null>(null); // track selected option
+  const [feedback, setFeedback] = useState<string>(""); // track feedback
+  const [matchResult, setMatchResult] = useState<RegExpMatchArray | null>(null); // track match result
 
   const handleSelection = (option: string) => {
     setSelected(option);
     setFeedback(option === correctAnswer ? "✅ Correct!" : "❌ Try again");
+    regexMatchResult(option);
   };
+
+  const regexMatchResult = (rawPattern: string) => {
+    try {
+      const lastSlashIndex: number = rawPattern.lastIndexOf('/'); // get the index of the last slash (which separates the pattern from the flags). Returns -1 if not found
+      const pattern: string = lastSlashIndex !== -1 ? rawPattern.slice(0, lastSlashIndex) : rawPattern; // slice the pattern string up to the last slash if it exists, otherwise use the entire string
+      const flags: string = lastSlashIndex !== -1 ? rawPattern.slice(lastSlashIndex + 1) : ''; // slice the flags string starting after the last slash if they exist, otherwise use an empty string
+      const regex = new RegExp(pattern, flags); // create a regex with the pattern and flags. It automatically treats '//' as '/' in the pattern. Flags are optional and an empty string is treated as no flags, which is the default behavior
+      const result = question.match(regex); // quiz's 'question' is the string to match
+      setMatchResult(result);
+      //------------------------------------------------------- DELETE -------------------------------------------------------
+      const matchResultJSON = JSON.stringify(result, null, 2);
+      console.log(`result: ${result}`);
+      console.log(`matchResultJSON: ${matchResultJSON}`);
+      //------------------------------------------------------- DELETE -------------------------------------------------------
+    } catch (error) {
+      setMatchResult(null);
+      console.error("Regex error:", error);
+    }
+  };
+
 
   const handleNext = () => {
     setSelected(null);
     setFeedback("");
-    if (onNext){
+    if (onNext) {
       onNext(); // Let parent handle what's next
     }
   };
@@ -39,38 +61,50 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
       <h4 className="text-md font-medium">Desired match:</h4>
       <p className="mb-4 text-blue-600">{targetMatch}</p>
 
+      {/* Quiz Options / Answers*/}
       <div className="space-y-2">
         {options.map((option, index) => (
           <button
             key={index}
             onClick={() => handleSelection(option)}
-            className={`w-full px-4 py-2 rounded border text-left ${
-              selected === option
+            className={`w-full px-4 py-2 rounded border text-left ${selected === option
                 ? option === correctAnswer
                   ? "bg-green-100 border-green-500"
                   : "bg-red-100 border-red-500"
                 : "bg-gray-50 border-gray-300 hover:bg-gray-100"
-            }`}
+              }`}
           >
             {option}
           </button>
         ))}
       </div>
 
+      {/* If an option is selected, show feedback, 'Next Quiz' button and match result */}
       {selected && (
         <>
-          <p className="mt-4 font-semibold">{feedback}</p>
+          <p className="mt-4 font-semibold">{feedback}</p> {/* Feedback */}
+          {/* 'Next Quiz' button */}
           <button
             onClick={handleNext}
             className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Next Quiz
           </button>
+
+          {/* Match Result */}
+          <div className="mt-6 bg-gray-100 p-4 rounded">
+            <h5 className="font-semibold mb-2">Regex Match Result:</h5>
+            {matchResult ? (
+              <pre className="whitespace-pre-wrap">{matchResult?.join(", ") || "No match"}</pre>
+            ) : (
+              <p className="text-red-600">No match</p>
+            )}
+          </div>
         </>
       )}
     </div>
   );
 };
 
-export { MultipleChoiceQuiz};
+export { MultipleChoiceQuiz };
 export type { MultipleChoiceQuizProps };
