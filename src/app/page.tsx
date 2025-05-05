@@ -10,6 +10,7 @@ import { quizData } from '@/data/quizData';
 import { Category } from "@/types/Category";
 import { regexData } from "@/data/regexData";
 import { AllQuizzesCompletedMessage } from "@/components/AllQuizzesCompletedMessage";
+import { QuizModal } from "@/components/QuizModal";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null); // track selected category
@@ -18,7 +19,8 @@ export default function Home() {
   const [currentQuiz, setCurrentQuiz] = useState<MultipleChoiceQuizProps | null>(null); // track current quiz
   const [completedQuizIds, setCompletedQuizIds] = useState<number[]>([]); // track completed quiz ids
   const [allQuizzesComplete, setAllQuizzesComplete] = useState(false); // track if all quizzes have been completed
-  const [displayQuizButton, setDisplayQuizButton] = useState(true); // track if the 'Show / Close Quiz' button should be shown
+  const [showModal, setShowModal] = useState(false); // track if the modal should be shown
+  const [displayModalButton, setDisplayModalButton] = useState(true); // track if the 'Show Quiz (Modal)' button should be shown
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const found = regexData.find((cat) => cat.category === event.target.value); // find the selected category, otherwise return undefined
@@ -91,6 +93,16 @@ export default function Home() {
     }
   };
 
+  const handleQuizModal = () => {
+    const nextQuiz = getRandomQuiz(completedQuizIds);
+    setCurrentQuiz(nextQuiz);
+    setShowModal(!!nextQuiz); // Only show modal if we got a quiz
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   // executed when the 'Next Quiz' button is clicked
   const handleNextQuiz = () => {
     if (currentQuiz) { // add the current quiz id to the list of completed quiz ids (keep in mind that the 'Next Quiz' button is only shown if the selected answer is correct)
@@ -103,9 +115,9 @@ export default function Home() {
         }
         else { // if all the quizzes have been completed, set currentQuiz to null, hide the quiz box, set allQuizzesComplete to true, and hide the 'Show / Close Quiz' button
           setCurrentQuiz(null);
-          setShowQuiz(false);
+          setShowModal(false);
           setAllQuizzesComplete(true);
-          setDisplayQuizButton(false);
+          setDisplayModalButton(false);
         }
         return updatedQuizIds; // return updated list of completed quiz IDs
       });
@@ -118,7 +130,7 @@ export default function Home() {
     setAllQuizzesComplete(false);
     setCurrentQuiz(getRandomQuiz(completedQuizIds));
     setShowQuiz(false);
-    setDisplayQuizButton(true);
+    setDisplayModalButton(true);
   };
 
   // call the method to check for duplicate id values among the quizzes and log an appropriate message to the console, if any are found. I use 'useEffect' to call this method when the component mounts, otherwise if I were to call it directly it would run twice on startup because React renders everything twice
@@ -131,6 +143,7 @@ export default function Home() {
       <h1 className="text-3xl font-bold mb-4 text-center">Regex Reference Tool</h1>
       <div className="max-w-lg mx-auto">
         <label htmlFor="category" className="block text-lg mb-2 ">Choose a category:</label>
+        {/* Category Dropdown */}
         <select
           id="category"
           className="w-full border border-gray-300 rounded px-4 py-2 mb-6"
@@ -138,6 +151,7 @@ export default function Home() {
           defaultValue=""
         >
           <option value="" disabled>-- Select a category --</option>
+          {/* Map over regexData and render each category as an option */}
           {regexData.map((c) => (
             <option key={c.category} value={c.category}>
               {c.category}
@@ -146,21 +160,21 @@ export default function Home() {
         </select>
       </div>
 
+      {/* Pattern Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
         {selectedCategory && selectedCategory.patterns.map((pattern) => (
           <button
             key={pattern.title}
             className="border rounded-lg p-4 bg-gray-100 shadow-md hover:bg-gray-200"
-            onClick={() => handlePatternClick(pattern)}
+            onClick={() => handlePatternClick(pattern)} // call handlePatternClick when a pattern card is clicked
           >
             {pattern.title}
           </button>
         ))}
       </div>
 
-      {/* Information Box */}
+      {/* Pattern Information Box */}
       {/* check if selectedPattern.renderMode is null. If so, use PatternInfoDefault. Otherwise, use the appropriate component */}
-
       {selectedPattern && (() => {
         switch (selectedPattern.renderMode) {
           case "exampleMultiline":
@@ -172,28 +186,23 @@ export default function Home() {
         }
       })()}
 
-      {displayQuizButton && (
+      {/* Shows 'Show Quiz (Modal)' button */}
+      {displayModalButton && (
         <div className="mt-8">
-          <button
-            onClick={handleShowQuiz}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-          >
-            {`${showQuiz ? "Close" : "Show"} Quiz`} {/* toggle between "Show Quiz" and "Close Quiz" on click */}
-          </button>
+          <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition" onClick={handleQuizModal}>Show Quiz (Modal)</button>
         </div>
       )}
 
-      {/* make sure that both the showQuiz boolean is set to true and that currentQuiz is not null */}
-      {showQuiz && currentQuiz && (
-        <div className="mt-6">
-          <MultipleChoiceQuiz {...currentQuiz} onNext={handleNextQuiz} />
-        </div>
-      )}
-
+      {/* Shows 'All Quizzes Completed' message and give option to restart */}
       {allQuizzesComplete && (
         <div className="mt-6">
           <AllQuizzesCompletedMessage onRestart={handleRestartQuiz} />
         </div>
+      )}
+
+      {/* Show the quiz modal when showModal is true */}
+      {showModal && (
+        <QuizModal currentQuiz={currentQuiz} onClose={handleCloseModal} onNext={handleNextQuiz}/>
       )}
     </div>
   );
