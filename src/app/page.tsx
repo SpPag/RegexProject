@@ -5,7 +5,7 @@ import { PatternInfoDefault } from "@/components/PatternInfoDefault";
 import { PatternInfoExampleMultiline } from "@/components/PatternInfoExampleMultiline";
 import { PatternInfoExampleItalic } from "@/components/PatternInfoExampleItalic";
 import { Pattern } from "@/types/Pattern";
-import { MultipleChoiceQuiz, MultipleChoiceQuizProps } from '@/components/MultipleChoiceQuiz';
+import { MultipleChoiceQuizProps } from '@/components/MultipleChoiceQuiz';
 import { quizData } from '@/data/quizData';
 import { Category } from "@/types/Category";
 import { regexData } from "@/data/regexData";
@@ -15,11 +15,10 @@ import { QuizModal } from "@/components/QuizModal";
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null); // track selected category
   const [selectedPattern, setSelectedPattern] = useState<Pattern | null>(null); // track selected pattern
-  const [showQuiz, setShowQuiz] = useState(false); // track if the quiz should be shown
   const [currentQuiz, setCurrentQuiz] = useState<MultipleChoiceQuizProps | null>(null); // track current quiz
   const [completedQuizIds, setCompletedQuizIds] = useState<number[]>([]); // track completed quiz ids
   const [allQuizzesComplete, setAllQuizzesComplete] = useState(false); // track if all quizzes have been completed
-  const [showModal, setShowModal] = useState(false); // track if the modal should be shown
+  const [showQuizModal, setShowQuizModal] = useState(false); // track if the modal should be shown
   const [displayModalButton, setDisplayModalButton] = useState(true); // track if the 'Show Quiz (Modal)' button should be shown
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -27,7 +26,6 @@ export default function Home() {
     setSelectedCategory(found ?? null); // set the selected category to the one found, or null if undefined
     setSelectedPattern(null); // set the selected pattern to null so that the information box is hidden
     setCurrentQuiz(null); // set the current quiz to null
-    setShowQuiz(false); // set the showQuiz state to false so that the quiz box is hidden
   };
 
   const handlePatternClick = (pattern: Pattern) => {
@@ -80,27 +78,15 @@ export default function Home() {
       return newQuiz;
     }
   };
-
-  const handleShowQuiz = () => {
-    // if the quiz button is clicked while the quiz is shown, close it
-    if (showQuiz) {
-      setShowQuiz(false);
-    }
-    // if the quiz button is clicked while the quiz is not shown, get a random, available quiz and show it
-    else {
-      setCurrentQuiz(getRandomQuiz(completedQuizIds));
-      setShowQuiz(true);
-    }
-  };
-
+  
   const handleQuizModal = () => {
     const nextQuiz = getRandomQuiz(completedQuizIds);
     setCurrentQuiz(nextQuiz);
-    setShowModal(!!nextQuiz); // Only show modal if we got a quiz
+    setShowQuizModal(!!nextQuiz); // Only show modal if we got a quiz
   };
 
   const handleCloseModal = () => {
-    setShowModal(false);
+    setShowQuizModal(false);
   };
 
   // executed when the 'Next Quiz' button is clicked
@@ -113,9 +99,9 @@ export default function Home() {
         if (nextQuiz) { // if there is a next quiz (so if not all the quizzes have been completed), show it
           setCurrentQuiz(nextQuiz);
         }
-        else { // if all the quizzes have been completed, set currentQuiz to null, hide the quiz box, set allQuizzesComplete to true, and hide the 'Show / Close Quiz' button
+        else { // if all the quizzes have been completed, set currentQuiz to null, hide the quiz modal, set allQuizzesComplete to true, and hide the 'Show Quiz (Modal)' button
           setCurrentQuiz(null);
-          setShowModal(false);
+          setShowQuizModal(false);
           setAllQuizzesComplete(true);
           setDisplayModalButton(false);
         }
@@ -129,7 +115,6 @@ export default function Home() {
     setCompletedQuizIds([]);
     setAllQuizzesComplete(false);
     setCurrentQuiz(getRandomQuiz(completedQuizIds));
-    setShowQuiz(false);
     setDisplayModalButton(true);
   };
 
@@ -200,8 +185,8 @@ export default function Home() {
         </div>
       )}
 
-      {/* Show the quiz modal when showModal is true */}
-      {showModal && (
+      {/* Show the quiz modal when showQuizModal is true */}
+      {showQuizModal && (
         <QuizModal currentQuiz={currentQuiz} onClose={handleCloseModal} onNext={handleNextQuiz}/>
       )}
     </div>
