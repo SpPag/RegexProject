@@ -1,5 +1,4 @@
 import { Category } from "@/types/Category";
-// add stuff like the plus sign and {number} that signal repetition
 // add the question mark uses
 // use this to continue the patterns https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes
 const regexData: Category[] = [
@@ -197,6 +196,77 @@ const regexData: Category[] = [
         description: "Matches any character without the specified Unicode property (requires 'u' flag)",
         example: "\\P{Letter}",
         result: "Matches any character that is not a Unicode letter",
+      }
+    ]
+  },
+  {
+    category: "Quantifiers",
+    patterns: [
+      {
+        title: "+",
+        description: "Matches the preceding element one or more times",
+        example: "lo+l",
+        result: "Matches strings like 'lol', 'loool' and 'looooool', where the 'l' must appear once, followed by at least one 'o', and then an 'l'",
+      },
+      {
+        title: "*",
+        description: "Matches the preceding item 0 or more times (greedy)",
+        example: "bo*",
+        result: "Matches 'b' in 'bicycle', 'bo' in 'bone', and 'boooo' in 'boooom'",
+      },
+      {
+        title: "?",
+        description: "Matches the preceding item 0 or 1 time (greedy). Also makes quantifiers lazy when used after them. Greedy means that it will match as many characters as possible, while lazy means that it will match as few characters as possible",
+        example: "colou?r",
+        result: "Matches both 'colour' and 'color'",
+      },
+      {
+        title: "{n}",
+        description: "Matches exactly n occurrences of the preceding item",
+        example: "o{2}",
+        result: "Matches 'oo' in boom, but not 'o' in bone",
+      },
+      {
+        title: "{n,}",
+        description: "Matches at least n occurrences of the preceding item",
+        example: "a{2,}",
+        result: "Doesn't match 'a' in 'candy', but matches all 'a's in 'caandy' and 'caaaaaaandy'",
+      },
+      {
+        title: "{n,m}",
+        description: "Matches at least n and at most m occurrences of the preceding item",
+        example: "a{1,3}",
+        result: "Matches 'a' in 'candy', first two 'a's in 'caandy', and first three 'a's in 'caaaaaaandy'",
+      },
+      {
+        title: "+?",
+        description: "Matches the preceding item 1 or more times (lazy)",
+        example: "a+?",
+        result: "Matches 'a' in 'caandy' instead of 'aa' (as + would do)",
+      },
+      {
+        title: "*?",
+        description: "Matches the preceding item 0 or more times (lazy)",
+        example: "bo*?",
+        result: "Matches 'b' in 'boooom' instead of 'boooo' (as * would do)",
+      },
+      {
+        title: "??",
+        description: "Matches the preceding item 0 or 1 time (lazy)",
+        example: "e??le?",
+        result: "Matches 'le' in 'angle' instead of 'el' (as ? would do in 'e?le?')",
+      },
+      {
+        title: "{n,}?",
+        description: "Matches at least n occurrences of the preceding item (lazy)",
+        example: "a{2,}?",
+        result: "Matches exactly two 'a's in 'caaaaaandy' instead of all 'a's",
+      },
+      {
+        title: "{n,m}?",
+        description: "Matches at least n and at most m occurrences of the preceding item (lazy)",
+        example: "a{1,3}?",
+        result: "Matches exactly one 'a' in 'caaaaaandy' instead of three 'a's",
       }
     ]
   }
