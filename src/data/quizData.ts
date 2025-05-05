@@ -26,7 +26,7 @@ const quizData: MultipleChoiceQuizProps[] = [
       id: 4,
       question: "It's not just any ball, it's a football",
       targetMatch: "the 'ball' part of 'football'",
-      options: ["\\Bball/g", "ball\\B/g", "^ball/g", "\\bball/g"],
+      options: ["\\bball/g", "ball\\B/g", "^ball/g", "\\Bball/g"],
       correctAnswer: "\\Bball/g"
     },
     {
@@ -47,21 +47,21 @@ const quizData: MultipleChoiceQuizProps[] = [
       id: 7,
       question: "win win win",
       targetMatch: "all occurrences of 'win'",
-      options: ["win", "win/g", "^win", "win$"],
+      options: ["win", "^win", "win/g", "win$"],
       correctAnswer: "win/g"
     },
     {
       id: 8,
       question: "Python is better than python",
       targetMatch: "both 'Python' and 'python'",
-      options: ["python/gi", "python", "Python", "\\bpython\\b"],
+      options: ["\\bpython\\b", "python", "Python", "python/gi"],
       correctAnswer: "python/gi"
     },
     {
       id: 9,
       question: "Order #123: 5 items",
       targetMatch: "all digit sequences in the string ('123' and '5')",
-      options: ["\\d", "\\d/g", "[0-9]", "\\d+/g"],
+      options: ["\\d+/g", "\\d/g", "[0-9]", "\\d"],
       correctAnswer: "\\d+/g"
     },
     {
@@ -70,8 +70,8 @@ const quizData: MultipleChoiceQuizProps[] = [
       targetMatch: "the valid-looking .com email (user@example.com)",
       options: [
         "\\w+@\\w+\\.\\w+/g",
-        "\\S+@\\S+/g",
         "\\b\\w+@\\w+\\.com\\b/g",
+        "\\S+@\\S+/g",
         "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b/g"
       ],
       correctAnswer: "\\b\\w+@\\w+\\.com\\b/g",
@@ -81,13 +81,41 @@ const quizData: MultipleChoiceQuizProps[] = [
       question: "Dates: 2023-01-15, 1999-12-31, 01-01-2023, 19999-120-310",
       targetMatch: "the (correct) dates in YYYY-MM-DD format",
       options: [
-        "\\d{4}-\\d{2}-\\d{2}/g",
-        "\\d+-\\d+-\\d+/g",
         "[0-9]+-[0-9]{2}-[0-9]{2}/g",
+        "\\d+-\\d+-\\d+/g",
+        "\\d{4}-\\d{2}-\\d{2}/g",
         "^\\d{4}-\\d{2}-\\d{2}$/g"
       ],
       correctAnswer: "\\d{4}-\\d{2}-\\d{2}/g"
-    }
+    },
+    {
+      id: 12,
+      question: "aaa aaaa aaaaa",
+      targetMatch: "sequences of exactly 4 'a's",
+      options: ["a{4}", "a+", "a{3,5}/g", "a{4}/g"],
+      correctAnswer: "a{4}/g"
+    },
+    {
+      id: 13,
+      question: "100, 1000, 10000, 100000",
+      targetMatch: "numbers with 3 to 5 digits",
+      options: ["\\b\\d{3,5}\\b/g", "\\d{3,}/g", "\\d{5}", "[0-9]+"],
+      correctAnswer: "\\b\\d{3,5}\\b/g"
+    },
+    {
+      id: 14,
+      question: "colour color colouur colouuur",
+      targetMatch: "both 'colour' and 'color'",
+      options: ["colou*r/g", "colou?r/g", "colou+r/g", "colou{0,1}r"],
+      correctAnswer: "colou?r/g"
+    },
+    {
+      id: 15,
+      question: "while 𝒞 is a math symbol, C is a letter",
+      targetMatch: "the Unicode math symbol '𝒞'",
+      options: ["\\p{Letter}/u", "\\p{Symbol}/u", "\\u{1D49E}/u", "C"],
+      correctAnswer: "\\u{1D49E}/u"
+    },
 ];
   
 export { quizData };

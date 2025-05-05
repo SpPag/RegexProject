@@ -1,5 +1,4 @@
 import { Category } from "@/types/Category";
-// add the question mark uses
 // use this to continue the patterns https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes
 const regexData: Category[] = [
   {
