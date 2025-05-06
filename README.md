@@ -5,4 +5,4 @@ Run locally with npm run dev
 
 Deployed to regex-tutor.vercel.app
 
-Still needs at least dark mode - specific styling and more regex data along with indicative quizzes
+Still needs at least dark mode - specific styling
