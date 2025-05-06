@@ -1,5 +1,5 @@
 import { Category } from "@/types/Category";
-// use this to continue the patterns https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes
+
 const regexData: Category[] = [
   {
     category: "Flags",
@@ -203,7 +203,7 @@ const regexData: Category[] = [
     patterns: [
       {
         title: "+",
-        description: "Matches the preceding element one or more times",
+        description: "Matches the preceding element one or more times (greedy)",
         example: "lo+l",
         result: "Matches strings like 'lol', 'loool' and 'looooool', where the 'l' must appear once, followed by at least one 'o', and then an 'l'",
       },
@@ -267,6 +267,23 @@ const regexData: Category[] = [
         example: "a{1,3}?",
         result: "Matches exactly one 'a' in 'caaaaaandy' instead of three 'a's",
       }
+    ]
+  },
+  {
+    category: "Lookaheads",
+    patterns: [
+      {
+        title: "Positive lookahead (?=...)",
+        description: "Matches the pattern only if it's followed by what's specified after '?='",
+        example: "cat(?=alyst)",
+        result: "Matches 'cat' in 'catalyst' but not in 'rains cats and dogs'",
+      },
+      {
+        title: "Negative lookahead (?!...)",
+        description: "Matches the pattern only if it's NOT followed by what's specified after '?='",
+        example: "cat(?!alyst)",
+        result: "Matches 'cat' in 'rains cats and dogs' but not in 'catalyst'",
+      },
     ]
   }
 ]
