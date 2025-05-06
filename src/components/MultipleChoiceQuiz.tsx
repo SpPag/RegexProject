@@ -56,7 +56,7 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
   return (
     <div className="bg-white shadow-lg rounded-xl p-4 my-4 w-full max-w-2xl mx-auto">
       <h3 className="text-lg font-semibold mb-2">Match this string:</h3>
-      <p className="bg-gray-100 p-2 rounded mb-4">{question}</p>
+      <p className="bg-gray-100 p-2 rounded mb-4 whitespace-pre-wrap">{question}</p>
       <h4 className="text-md font-medium">Desired match:</h4>
       <p className="mb-4 text-blue-600">{targetMatch}</p>
 
