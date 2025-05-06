@@ -111,11 +111,90 @@ const quizData: MultipleChoiceQuizProps[] = [
     },
     {
       id: 15,
-      question: "while 𝒞 is a math symbol, C is a letter",
+      question: "while 𝒞 is a math symbol \u{1F643}, C is a letter",
       targetMatch: "the Unicode math symbol '𝒞'",
       options: ["\\p{Letter}/u", "\\p{Symbol}/u", "\\u{1D49E}/u", "C"],
       correctAnswer: "\\u{1D49E}/u"
     },
+    {
+      id: 16,
+      question: "First line\nSecond line\nThird line",
+      targetMatch: "the word at the start of each line",
+      options: ["\\b\\w+\\b/g", "^\\w+/g", "\\w+$/gm", "^\\w+/gm"],
+      correctAnswer: "^\\w+/gm"
+    },
+    {
+      id: 17,
+      question: "The price is $19.99 and €15.50",
+      targetMatch: "both currency amounts ($19.99 and €15.50)",
+      options: [
+        "[$€][0-9]+\\.[0-9]{2}/g",
+        "\\p{Sc}\\d+\\.\\d{1}/gu",
+        "\\$\\d+\\.\\d{2}/g",
+        "\\p{Symbol}\\d+\\.\\d+$/gu"
+      ],
+      correctAnswer: "[$€][0-9]+\\.[0-9]{2}/g"
+    },
+    {
+      id: 18,
+      question: "Find 🐶🐱🦊 in this emoji-enriched text",
+      targetMatch: "the sequence of all three emojis",
+      options: [
+        "\\p{Emoji}/u",
+        "🐶🐱🦊",
+        "\\p{Emoji_Presentation}/gu",
+        "[\\u{1F436}-\\u{1F98A}]/gu"
+      ],
+      correctAnswer: "🐶🐱🦊"
+    },
+    {
+      id: 19,
+      question: "hello\nworld\nhello universe",
+      targetMatch: "'hello' at the start and 'hello' followed by space",
+      options: [
+        "^hello\\b.*/gm",
+        "hello.*/gs",
+        "^hello.?/gm",
+        "hello\\s.*/g"
+      ],
+      correctAnswer: "^hello.?/gm"
+    },
+    {
+      id: 20,
+      question: "'apple jam' 'banana' 'cherry'",
+      targetMatch: "The first quoted text, so ''apple jam''",
+      options: [
+        "'.*'",
+        "'\\w+'",
+        "'[a-z]+'/g",
+        "'.*?'"
+      ],
+      correctAnswer: "'.*?'",
+    },
+    {
+      id: 21,
+      question: "|special$chars| |normal|",
+      targetMatch: "The text inside the pipes (including the pipes), so '|special$chars|' and '|normal|'",
+      options: [
+        "\\|[^\\|]+\\|/g",
+        "\\|.*\\|",
+        "\\|\\w+\\|",
+        "\\|[^\\|]+\\|"
+      ],
+      correctAnswer: "\\|[^\\|]+\\|/g",
+    },
+    {
+      id: 22,
+      question: "queue, queen, qat, Iraq",
+      targetMatch: "All 'q' that are followed by 'u'",
+      options: [
+        "q/g",
+        "q(?=u)/g",
+        "qu/g",
+        "q(?!u)/g"
+      ],
+      correctAnswer: "q(?=u)/g",
+    }
 ];
   
 export { quizData };
