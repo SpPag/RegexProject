@@ -19,7 +19,7 @@ export default function Home() {
   const [completedQuizIds, setCompletedQuizIds] = useState<number[]>([]); // track completed quiz ids
   const [allQuizzesComplete, setAllQuizzesComplete] = useState(false); // track if all quizzes have been completed
   const [showQuizModal, setShowQuizModal] = useState(false); // track if the modal should be shown
-  const [displayModalButton, setDisplayModalButton] = useState(true); // track if the 'Show Quiz (Modal)' button should be shown
+  const [displayModalButton, setDisplayModalButton] = useState(true); // track if the 'Show Quiz' button should be shown
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const found = regexData.find((cat) => cat.category === event.target.value); // find the selected category, otherwise return undefined
@@ -99,7 +99,7 @@ export default function Home() {
         if (nextQuiz) { // if there is a next quiz (so if not all the quizzes have been completed), show it
           setCurrentQuiz(nextQuiz);
         }
-        else { // if all the quizzes have been completed, set currentQuiz to null, hide the quiz modal, set allQuizzesComplete to true, and hide the 'Show Quiz (Modal)' button
+        else { // if all the quizzes have been completed, set currentQuiz to null, hide the quiz modal, set allQuizzesComplete to true, and hide the 'Show Quiz' button
           setCurrentQuiz(null);
           setShowQuizModal(false);
           setAllQuizzesComplete(true);
@@ -171,10 +171,10 @@ export default function Home() {
         }
       })()}
 
-      {/* Shows 'Show Quiz (Modal)' button */}
+      {/* Shows 'Show Quiz' button */}
       {displayModalButton && (
         <div className="mt-8">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition" onClick={handleQuizModal}>Show Quiz (Modal)</button>
+          <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition" onClick={handleQuizModal}>Show Quiz</button>
         </div>
       )}
 
