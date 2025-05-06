@@ -270,7 +270,7 @@ const regexData: Category[] = [
     ]
   },
   {
-    category: "Lookaheads",
+    category: "Lookaround assertions",
     patterns: [
       {
         title: "Positive lookahead (?=...)",
@@ -283,6 +283,18 @@ const regexData: Category[] = [
         description: "Matches the pattern only if it's NOT followed by what's specified after '?='",
         example: "cat(?!alyst)",
         result: "Matches 'cat' in 'rains cats and dogs' but not in 'catalyst'",
+      },
+      {
+        title: "Positive lookbehind (?<=...)",
+        description: "Matches the pattern only if it's preceded by what's specified after '?='",
+        example: "(?<=cat)alyst",
+        result: "Matches 'alyst' in 'catalyst' but not in 'chemists often work as quality analysts'",
+      },
+      {
+        title: "Negative lookbehind (?<!...)",
+        description: "Matches the pattern only if it's NOT preceded by what's specified after '?='",
+        example: "(?<!cat)alyst",
+        result: "Matches 'alyst' in 'chemists often work as quality analysts' but not in 'catalyst'",
       },
     ]
   }
