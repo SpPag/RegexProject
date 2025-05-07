@@ -124,71 +124,73 @@ export default function Home() {
   });
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4 text-center">Regex Reference Tool</h1>
-      <div className="max-w-lg mx-auto">
-        <label htmlFor="category" className="block text-lg mb-2 ">Choose a category:</label>
-        {/* Category Dropdown */}
-        <select
-          id="category"
-          className="w-full border border-gray-300 rounded px-4 py-2 mb-6"
-          onChange={handleCategoryChange}
-          defaultValue=""
-        >
-          <option value="" disabled>-- Select a category --</option>
-          {/* Map over regexData and render each category as an option */}
-          {regexData.map((c) => (
-            <option key={c.category} value={c.category}>
-              {c.category}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Pattern Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
-        {selectedCategory && selectedCategory.patterns.map((pattern) => (
-          <button
-            key={pattern.title}
-            className="border rounded-lg p-4 bg-gray-100 shadow-md hover:bg-gray-200"
-            onClick={() => handlePatternClick(pattern)} // call handlePatternClick when a pattern card is clicked
+    <div className="content-container bg-white dark:bg-zinc-900">
+      <div className="p-6 max-w-5xl mx-auto">
+        <h1 className="text-3xl font-bold mb-4 text-center">Regex Reference Tool</h1>
+        <div className="max-w-lg mx-auto">
+          <label htmlFor="category" className="block text-lg mb-2 ">Choose a category:</label>
+          {/* Category Dropdown */}
+          <select
+            id="category"
+            className="w-full border border-gray-300 rounded px-4 py-2 mb-6"
+            onChange={handleCategoryChange}
+            defaultValue=""
           >
-            {pattern.title}
-          </button>
-        ))}
+            <option value="" disabled>-- Select a category --</option>
+            {/* Map over regexData and render each category as an option */}
+            {regexData.map((c) => (
+              <option key={c.category} value={c.category}>
+                {c.category}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Pattern Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+          {selectedCategory && selectedCategory.patterns.map((pattern) => (
+            <button
+              key={pattern.title}
+              className="border rounded-lg p-4 bg-gray-100 shadow-md hover:bg-gray-200"
+              onClick={() => handlePatternClick(pattern)} // call handlePatternClick when a pattern card is clicked
+            >
+              {pattern.title}
+            </button>
+          ))}
+        </div>
+
+        {/* Pattern Information Box */}
+        {/* check if selectedPattern.renderMode is null. If so, use PatternInfoDefault. Otherwise, use the appropriate component */}
+        {selectedPattern && (() => {
+          switch (selectedPattern.renderMode) {
+            case "exampleMultiline":
+              return <PatternInfoExampleMultiline pattern={selectedPattern} />;
+            case "exampleItalic":
+              return <PatternInfoExampleItalic pattern={selectedPattern} />;
+            default:
+              return <PatternInfoDefault pattern={selectedPattern} />;
+          }
+        })()}
+
+        {/* Shows 'Show Quiz' button */}
+        {displayModalButton && (
+          <div className="mt-8">
+            <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition" onClick={handleQuizModal}>Show Quiz</button>
+          </div>
+        )}
+
+        {/* Shows 'All Quizzes Completed' message and give option to restart */}
+        {allQuizzesComplete && (
+          <div className="mt-6">
+            <AllQuizzesCompletedMessage onRestart={handleRestartQuiz} />
+          </div>
+        )}
+
+        {/* Show the quiz modal when showQuizModal is true */}
+        {showQuizModal && (
+          <QuizModal currentQuiz={currentQuiz} onClose={handleCloseModal} onNext={handleNextQuiz}/>
+        )}
       </div>
-
-      {/* Pattern Information Box */}
-      {/* check if selectedPattern.renderMode is null. If so, use PatternInfoDefault. Otherwise, use the appropriate component */}
-      {selectedPattern && (() => {
-        switch (selectedPattern.renderMode) {
-          case "exampleMultiline":
-            return <PatternInfoExampleMultiline pattern={selectedPattern} />;
-          case "exampleItalic":
-            return <PatternInfoExampleItalic pattern={selectedPattern} />;
-          default:
-            return <PatternInfoDefault pattern={selectedPattern} />;
-        }
-      })()}
-
-      {/* Shows 'Show Quiz' button */}
-      {displayModalButton && (
-        <div className="mt-8">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition" onClick={handleQuizModal}>Show Quiz</button>
-        </div>
-      )}
-
-      {/* Shows 'All Quizzes Completed' message and give option to restart */}
-      {allQuizzesComplete && (
-        <div className="mt-6">
-          <AllQuizzesCompletedMessage onRestart={handleRestartQuiz} />
-        </div>
-      )}
-
-      {/* Show the quiz modal when showQuizModal is true */}
-      {showQuizModal && (
-        <QuizModal currentQuiz={currentQuiz} onClose={handleCloseModal} onNext={handleNextQuiz}/>
-      )}
     </div>
   );
 }
