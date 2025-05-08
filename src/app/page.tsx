@@ -123,11 +123,6 @@ export default function Home() {
     checkQuizDuplicates();
   });
 
-  useEffect(() => {
-    // Optional: Reset on mount, useful if state might persist from HMR or sessionStorage
-    setSelectedCategory(null);
-  }, []);
-
   return (
     <div className="content-container bg-white dark:bg-zinc-900">
       <div className="p-6 max-w-5xl mx-auto">
