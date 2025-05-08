@@ -1,8 +1,9 @@
 # regex-project
-Small, ongoing project to act as a guide for learning regular expressions.
+Small project to act as a guide for learning regular expressions. Includes a few quizzes for practice!
 
 Run locally with npm run dev and visit on the localhost address stated in the terminal (http://localhost:3000 by default)
 
-Deployed to regex-tutor.vercel.app
+or
 
-Still needs at least dark mode - specific styling
+check out where it's deployed live to regex-tutor.vercel.app
+
