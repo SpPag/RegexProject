@@ -25,8 +25,8 @@ const PatternInfoExampleMultiline: React.FC<PatternInfoProps> = ({ pattern }) =>
       <p className="mb-4">{pattern.description}</p>
 
       {/* Example */}
-      <div className="bg-gray-100 p-4 rounded mb-2">
-        <div className="flex min-w-fit">
+      <div className="bg-gray-100 p-4 rounded mb-2 overflow-x-auto">
+        <div className="flex">
           <strong className="mr-1.5">Example:</strong>
           <code className="mr-2">{'match '}</code>
           <code className="block whitespace-pre">{`'${stringToMatch}'`}</code>
