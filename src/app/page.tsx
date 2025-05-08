@@ -175,7 +175,7 @@ export default function Home() {
         {/* Shows 'Show Quiz' button */}
         {displayModalButton && (
           <div className="mt-8">
-            <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition dark:bg-[#1738b5] dark:text-stone-300" onClick={handleQuizModal}>Show Quiz</button>
+            <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-[#1738b5] dark:hover:bg-[#1d41be] dark:text-zinc-300 transition" onClick={handleQuizModal}>Show Quiz</button>
           </div>
         )}
 

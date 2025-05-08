@@ -117,7 +117,7 @@ const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({
       {selected === correctAnswer && (
         <button
           onClick={handleNext}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-[#1738b5] dark:hover:bg-[#1d41be] dark:text-zinc-300 transition"
         >
           Next Quiz
         </button>

@@ -45,7 +45,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ currentQuiz, onClose, onNext }) =
                 </div>
                 <div className="p-4 bg-gray-50 rounded-b-lg dark:bg-zinc-800">
                     <button 
-                        className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-[#1738b5] dark:hover:bg-[#1a3cb9] dark:text-zinc-300 transition"
+                        className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-[#1738b5] dark:hover:bg-[##1d41be] dark:text-zinc-300 transition"
                         onClick={onClose}
                     >
                         Close
