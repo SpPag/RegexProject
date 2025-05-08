@@ -151,7 +151,7 @@ export default function Home() {
           {selectedCategory && selectedCategory.patterns.map((pattern) => (
             <button
               key={pattern.title}
-              className="border rounded-lg p-4 bg-gray-100 shadow-md hover:bg-gray-200 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700 transition-colors duration-200"
+              className="border rounded-lg p-4 bg-gray-100 shadow-md hover:bg-gray-200 dark:bg-zinc-800 dark:text-white dark:border-zinc-400 dark:hover:bg-zinc-700 transition-colors duration-200"
               onClick={() => handlePatternClick(pattern)} // call handlePatternClick when a pattern card is clicked
             >
               {pattern.title}
