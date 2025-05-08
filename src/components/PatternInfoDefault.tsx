@@ -10,7 +10,7 @@ const PatternInfoDefault: React.FC<PatternInfoProps> = ({ pattern }) => {
     <div className="bg-white shadow-md rounded-xl p-6 mt-6 border border-gray-200 w-full max-w-4xl mx-auto">
       <h2 className="text-2xl font-semibold mb-2">{pattern.title}</h2>
       <p className="mb-4">{pattern.description}</p>
-      <div className="bg-gray-100 p-4 rounded mb-2">
+      <div className="bg-gray-100 p-4 rounded mb-2 overflow-x-auto">
         <strong>Example:</strong> <code>{pattern.example}</code>
       </div>
       <div className="bg-gray-100 p-4 rounded">
