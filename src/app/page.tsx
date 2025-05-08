@@ -135,7 +135,7 @@ export default function Home() {
             className="w-full border border-gray-300 rounded px-4 py-2 mb-6 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700"
             onChange={handleCategoryChange}
             value={selectedCategory?.category || ""}  // set the default value to an empty string
-            autoComplete="off"
+            autoComplete="off" // disable autocomplete, which didn't reset the selected category to '-- Select a category --' on page reload
           >
             <option value="" disabled>-- Select a category --</option>
             {/* Map over regexData and render each category as an option */}
