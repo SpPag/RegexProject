@@ -126,13 +126,13 @@ export default function Home() {
   return (
     <div className="content-container bg-white dark:bg-zinc-900">
       <div className="p-6 max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold mb-4 text-center">Regex Reference Tool</h1>
+        <h1 className="text-3xl font-bold mb-4 text-center dark:text-zinc-300">Regex Reference Tool</h1>
         <div className="max-w-lg mx-auto">
-          <label htmlFor="category" className="block text-lg mb-2 ">Choose a category:</label>
+          <label htmlFor="category" className="block text-lg mb-2 dark:text-zinc-300">Choose a category:</label>
           {/* Category Dropdown */}
           <select
             id="category"
-            className="w-full border border-gray-300 rounded px-4 py-2 mb-6"
+            className="w-full border border-gray-300 rounded px-4 py-2 mb-6 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700"
             onChange={handleCategoryChange}
             defaultValue=""
           >
@@ -151,7 +151,7 @@ export default function Home() {
           {selectedCategory && selectedCategory.patterns.map((pattern) => (
             <button
               key={pattern.title}
-              className="border rounded-lg p-4 bg-gray-100 shadow-md hover:bg-gray-200"
+              className="border rounded-lg p-4 bg-gray-100 shadow-md hover:bg-gray-200 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700 transition-colors duration-200"
               onClick={() => handlePatternClick(pattern)} // call handlePatternClick when a pattern card is clicked
             >
               {pattern.title}
@@ -175,7 +175,7 @@ export default function Home() {
         {/* Shows 'Show Quiz' button */}
         {displayModalButton && (
           <div className="mt-8">
-            <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition" onClick={handleQuizModal}>Show Quiz</button>
+            <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition dark:bg-[#1738b5] dark:text-stone-300" onClick={handleQuizModal}>Show Quiz</button>
           </div>
         )}
 
