@@ -10,6 +10,7 @@ check out where it's deployed live to regex-tutor.vercel.app
 <details>
   <summary><em>built using</em></summary>
   <ul>
+    <li>Next.js</li>
     <li>JavaScript / TypeScript</li>
     <li>React</li>
     <li>Tailwind</li>
