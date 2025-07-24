@@ -14,7 +14,7 @@ const PatternInfoDefault: React.FC<PatternInfoProps> = ({ pattern }) => {
         <strong>Example:</strong> <code>{pattern.example}</code>
       </div>
       <div className="bg-gray-100 p-4 rounded dark:bg-zinc-700 dark:text-white">
-        <strong>Matches:</strong> <code>{pattern.result}</code>
+        <strong>Result:</strong> <code>{pattern.result}</code>
       </div>
     </div>
   );
